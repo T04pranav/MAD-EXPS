@@ -1,0 +1,99 @@
+Exp4: To Design flutter UI by including Icon, images, charts in flutter app.|| Run on Flut Lab
+Code:
+import 'package:flutter/material.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
+
+void main() {
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+    );
+  }
+}
+
+class MyHomePage extends StatefulWidget {
+  const MyHomePage({Key? key, required this.title}) : super(key: key);
+
+  final String title;
+
+  @override
+  State<MyHomePage> createState() => MyHomePageState();
+}
+
+class MyHomePageState extends State<MyHomePage> {
+  TooltipBehavior _tooltipBehavior = TooltipBehavior(enable: true);
+
+  @override
+  Widget build(BuildContext context) {
+    final List<ChartData> chartData = [
+      ChartData('Lenovo', 25),
+      ChartData('Asus', 38),
+      ChartData('Dell', 48),
+      ChartData('HP', 50)
+    ];
+    return Scaffold(
+      appBar: AppBar(
+        leading: Icon(
+          Icons.pie_chart,
+          color: Colors.white,
+        ),
+        title: Text(widget.title),
+      ),
+      body: Center(
+        child: Container(
+          constraints: BoxConstraints.expand(),
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('assets/images/bgimg.png'),
+              fit: BoxFit.cover,
+            ),
+          ),
+          child: Container(
+            padding: EdgeInsets.all(40),
+            child: SfCircularChart(
+              title: ChartTitle(
+                text: 'Sales of the Laptop (year 2021)',
+                alignment: ChartAlignment.near,
+                textStyle: TextStyle(
+                  fontFamily: 'times new roman',
+                  fontSize: 20,
+                  color: Colors.red,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              tooltipBehavior: _tooltipBehavior,
+              series: <CircularSeries>[
+                // Render pie chart
+                PieSeries<ChartData, String>(
+                  enableTooltip: true,
+                  dataSource: chartData,
+                  xValueMapper: (ChartData data, _) => data.x,
+                  yValueMapper: (ChartData data, _) => data.y,
+                  dataLabelSettings: const DataLabelSettings(isVisible: true),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class ChartData {
+  ChartData(this.x, this.y, [this.color]);
+  final String x;
+  final double y;
+  final Color? color;
+}
