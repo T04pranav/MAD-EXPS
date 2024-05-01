@@ -1,0 +1,56 @@
+Exp6: To design flutter UI by applying animation on container widget. || Run on zapp
+Code:
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(MaterialApp(home: HomePage(),));
+}
+
+class HomePage extends StatefulWidget {
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage>{
+  double height=300;
+  double width=300;
+  double changeXaxis=0;
+  double rotateX=0;
+  double rotateY=0;
+
+  @override
+  Widget build(BuildContext context){
+    return Scaffold(
+      appBar: AppBar(),
+
+      body: Center(
+        child: Column(
+          children: [
+            AnimatedContainer(
+              duration: Duration(milliseconds: 500),
+              transform: Matrix4.translationValues(changeXaxis, 0, 0)..rotateX(rotateX)..rotateY(rotateY),
+              height: height,
+              width: width,
+              color: Colors.blue,
+            ),
+            ElevatedButton(
+              child: Text("Animate me"),
+              onPressed: (){
+                setState(() {
+                  height = height > 100 ? height - 100 : 100; // Set a minimum height
+                  width = width > 100 ? width - 100 : 100; // Set a minimum width
+                  changeXaxis += 20;
+                  rotateX += 0.3; // Increment rotation gradually
+                  rotateY += 0.3; // Increment rotation gradually
+                });
+              },
+              style: ElevatedButton.styleFrom(
+                primary: Colors.blue[200],
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
